@@ -1,9 +1,5 @@
-// userModel.js
-
 const pool = require("../database/connection");
 const bcrypt = require('bcryptjs');
-const { generateAccessAndRefreshToken, refreshToken } = require('../utils/token'); 
-
 
 exports.register = (email, password, isAdmin, fname, lname) => {
     return new Promise((resolve, reject) => {
@@ -61,16 +57,12 @@ exports.login = (email, password) => {
                             } else if (!isMatch) {
                                 reject(new Error("Invalid email or password"));
                             } else {
+                                // Return user data without token handling
                                 let userData = {
                                     userId: result[0].userId,
-                                    isAdmin: result[0].isAdmin,
-                                }
-                                const {token, refreshToken} = generateAccessAndRefreshToken(userData);
-                                userData.token = token;
-                                userData.refreshToken = refreshToken;
-
-                                let response = [userData]
-                                resolve(response);
+                                    isAdmin: result[0].isAdmin
+                                };
+                                resolve(userData);
                             }
                         });
                     }
@@ -79,5 +71,3 @@ exports.login = (email, password) => {
         );
     });
 };
-
-

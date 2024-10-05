@@ -28,7 +28,7 @@ function Login(props) {
             const user = res.data[0].isAdmin;
             sessionStorage.setItem("customerId", res.data[0].userId);
             sessionStorage.setItem("isAdmin", user ? true : false);
-
+            
             Cookies.set("jwt_token", res.data[0].token, { secure: true });
             Cookies.set("jwt_refresh_token", res.data[0].refreshToken, { secure: true }); 
 
